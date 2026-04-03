@@ -1,100 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERP Portal | Nampak Malawi</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERP Portal | Nampak Malawi</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <header style="background: #002244;">
-        <a href="index.html" class="logo">NAMPAK ERP LITE</a>
-        <nav>
-            <span style="color: white; margin-right: 20px;">Welcome, Chibuku Procurement</span>
-            <a href="index.html" class="btn" style="background: #dc3545;">Logout</a>
-        </nav>
-    </header>
 
-    <div class="container">
-        <!-- KPI Cards -->
-        <div class="grid-3" style="margin-bottom: 40px;">
-            <div class="acrylic" style="padding: 20px; border-left: 5px solid var(--accent);">
-                <p style="color: #666; font-size: 0.9rem; text-transform: uppercase;">Outstanding Balance</p>
-                <h2 style="font-size: 2rem; color: var(--primary);">MK 7,500,000</h2>
-            </div>
-            <div class="acrylic" style="padding: 20px; border-left: 5px solid #28a745;">
-                <p style="color: #666; font-size: 0.9rem; text-transform: uppercase;">Active Orders in Production</p>
-                <h2 style="font-size: 2rem; color: var(--primary);">2 Jobs</h2>
-            </div>
-            <div class="acrylic" style="padding: 20px; border-left: 5px solid #ffc107;">
-                <p style="color: #666; font-size: 0.9rem; text-transform: uppercase;">Current Stock (Sorghum Cartons)</p>
-                <h2 style="font-size: 2rem; color: var(--primary);">125,000 <span style="font-size: 1rem; color: #666;">units</span></h2>
-            </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px;">
-            <!-- Order Tracking -->
-            <div class="acrylic" style="padding: 25px;">
-                <h2 style="margin-bottom: 15px; color: var(--primary);">Production Tracking</h2>
-                <table>
-                    <thead><tr><th>Order ID</th><th>Client</th><th>Item</th><th>Quantity</th><th>Status</th></tr></thead>
-                    <tbody id="order-table-body"></tbody>
-                </table>
-            </div>
-
-            <!-- Quote Generator -->
-            <div class="acrylic" style="padding: 25px;">
-                <h2 style="margin-bottom: 15px; color: var(--primary);">Quick Quotation</h2>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <label>Select Product</label>
-                    <select id="quote-item" style="padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
-                        <option value="Sorghum Cartons">Sorghum Cartons</option>
-                        <option value="Tobacco Cases">Tobacco Cases</option>
-                    </select>
-                    <label>Volume (Units)</label>
-                    <input type="number" id="quote-qty" value="10000" style="padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
-                    <button class="btn" onclick="generateQuote()">Generate Official PDF</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Invoices & Payments -->
-        <div class="acrylic" style="padding: 25px; margin-bottom: 40px;">
-            <h2 style="margin-bottom: 15px; color: var(--primary);">Payments Portal</h2>
-            <table>
-                <thead><tr><th>Invoice ID</th><th>Billed To</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
-                <tbody id="invoice-table-body"></tbody>
-            </table>
-        </div>
-
-        <!-- Quick Analytics Chart -->
-        <div class="acrylic" style="padding: 25px;">
-            <h2 style="margin-bottom: 15px; color: var(--primary);">Order Volume Trends (2026)</h2>
-            <canvas id="salesChart" height="80"></canvas>
-        </div>
+  <!-- DASHBOARD HEADER -->
+  <header class="dash-header">
+    <a href="index.html" class="logo" style="font-size:1.15rem">NAMPAK <span style="color:#80c6ff">ERP LITE</span></a>
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="color:rgba(255,255,255,.7);font-size:.88rem" id="welcome-msg"></span>
+      <a href="index.html" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,.4);color:white;padding:7px 14px;font-size:.85rem">Main Site</a>
+      <a href="login.html" class="btn" style="background:#ef4444;padding:7px 14px;font-size:.85rem">Logout</a>
     </div>
+  </header>
 
-    <script src="js/app.js"></script>
-    <script>
-        // Chart.js implementation for demo purposes
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-                datasets: [{
-                    label: 'Cartons Ordered (Units)',
-                    data: [150000, 180000, 120000, 200000],
-                    borderColor: '#0078D4',
-                    backgroundColor: 'rgba(0, 120, 212, 0.1)',
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: { responsive: true }
+  <div style="display:flex">
+    <!-- SIDEBAR -->
+    <aside class="dash-aside">
+      <a href="#dashboard" class="active" onclick="showSection('dashboard',this)">&#9632; Dashboard</a>
+      <a href="#inventory"  onclick="showSection('inventory',this)">&#9632; Inventory</a>
+      <a href="#orders"     onclick="showSection('orders',this)">&#9632; Orders</a>
+      <a href="#invoices"   onclick="showSection('invoices',this)">&#9632; Payments</a>
+      <a href="#quotation"  onclick="showSection('quotation',this)">&#9632; Quotation</a>
+      <a href="products.html" style="margin-top:auto">&#9632; Product Catalogue</a>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="dash-main">
+
+      <!-- ═══ DASHBOARD ═══ -->
+      <div id="section-dashboard">
+        <h1 style="font-size:1.6rem;color:var(--primary);margin-bottom:6px">Dashboard</h1>
+        <p style="color:var(--grey);margin-bottom:24px;font-size:.88rem">April 2026 &bull; Live demo data</p>
+
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <p>Total Revenue (Paid)</p>
+            <h3 id="kpi-revenue">...</h3>
+          </div>
+          <div class="kpi-card orange">
+            <p>Outstanding Balance</p>
+            <h3 id="kpi-pending">...</h3>
+          </div>
+          <div class="kpi-card green">
+            <p>Active Production Jobs</p>
+            <h3 id="kpi-jobs">...</h3>
+          </div>
+          <div class="kpi-card red">
+            <p>Overdue Invoices</p>
+            <h3 id="kpi-overdue">...</h3>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px">
+          <div class="dash-panel">
+            <h2>Order Volume Trends (2026)</h2>
+            <canvas id="sales-chart" height="110"></canvas>
+          </div>
+          <div class="dash-panel">
+            <h2>Stock by Category</h2>
+            <canvas id="stock-chart" height="110"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ INVENTORY ═══ -->
+      <div id="section-inventory" style="display:none">
+        <h1 style="font-size:1.6rem;color:var(--primary);margin-bottom:24px">Inventory Overview</h1>
+        <div class="dash-panel">
+          <h2>Stock Levels by Category</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Category</th><th>Product Lines</th><th>Total Stock (units)</th><th>Status</th></tr></thead>
+              <tbody id="inv-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="dash-panel">
+          <h2>All Products &mdash; Live Stock</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Product</th><th>Category</th><th>Stock</th><th>Unit Price</th></tr></thead>
+              <tbody id="all-products-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ ORDERS ═══ -->
+      <div id="section-orders" style="display:none">
+        <h1 style="font-size:1.6rem;color:var(--primary);margin-bottom:24px">Order &amp; Production Tracking</h1>
+        <div class="dash-panel">
+          <h2>Active &amp; Recent Orders</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Order ID</th><th>Client</th><th>Product</th><th>Qty</th><th>Date</th><th>Status</th></tr></thead>
+              <tbody id="order-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ INVOICES / PAYMENTS ═══ -->
+      <div id="section-invoices" style="display:none">
+        <h1 style="font-size:1.6rem;color:var(--primary);margin-bottom:24px">Payments Portal</h1>
+        <div class="dash-panel">
+          <h2>Invoice List</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Invoice ID</th><th>Client</th><th>Amount</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="invoice-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ QUOTATION ENGINE ═══ -->
+      <div id="section-quotation" style="display:none">
+        <h1 style="font-size:1.6rem;color:var(--primary);margin-bottom:24px">Quotation Generator</h1>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div class="dash-panel">
+            <h2>Generate Official Quotation</h2>
+            <div class="form-group"><label>Client Name / Company</label><input type="text" id="q-client" placeholder="e.g. Chibuku Products Ltd"></div>
+            <div class="form-group"><label>Select Product</label><select id="q-product"><option value="">-- Choose Product --</option></select></div>
+            <div class="form-group"><label>Quantity (units / cases / meters)</label><input type="number" id="q-qty" min="1" placeholder="e.g. 50000"></div>
+            <div class="form-group"><label>Delivery Location</label><input type="text" id="q-delivery" placeholder="e.g. Blantyre CBD"></div>
+            <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="generateQuote()">Calculate &amp; Generate PDF Quote</button>
+          </div>
+          <div class="dash-panel" id="quote-preview" style="display:none">
+            <h2>Quotation Preview</h2>
+            <div id="quote-output" style="font-size:.9rem;line-height:2"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Auth guard
+    if(!sessionStorage.getItem('nampak_user')) window.location.href='login.html';
+    document.getElementById('welcome-msg').textContent = 'Logged in as: ' + (sessionStorage.getItem('nampak_user')||'demo');
+
+    // Section switcher
+    function showSection(id, el){
+      document.querySelectorAll('[id^="section-"]').forEach(s=>s.style.display='none');
+      document.getElementById('section-'+id).style.display='block';
+      document.querySelectorAll('.dash-aside a').forEach(a=>a.classList.remove('active'));
+      if(el) el.classList.add('active');
+    }
+
+    // All-products table in inventory
+    function renderAllProducts(){
+      const tbody = document.getElementById('all-products-tbody');
+      if(!tbody) return;
+      NampakDB.products.forEach(p=>{
+        const cls = p.stock > 10000 ? 'success' : 'warning';
+        tbody.innerHTML += `<tr><td>${p.id}</td><td>${p.name}</td><td>${p.cat}</td><td><span class="badge badge-${cls}">${p.stock.toLocaleString()}</span></td><td>MK ${p.price.toLocaleString()}</td></tr>`;
+      });
+    }
+
+    // Override generateQuote to show preview panel
+    function generateQuote(){
+      const client   = document.getElementById('q-client').value.trim();
+      const prodName = document.getElementById('q-product').value;
+      const qty      = parseInt(document.getElementById('q-qty').value)||0;
+      const delivery = document.getElementById('q-delivery').value.trim();
+      if(!client||!prodName||!qty){alert('Please complete all required fields.');return;}
+      const p = NampakDB.products.find(x=>x.name===prodName);
+      if(!p) return;
+      const subtotal   = p.price * qty;
+      const vat        = subtotal * 0.165;
+      const grandTotal = subtotal + vat;
+      const refNum     = 'QT-2026-' + Math.floor(1000+Math.random()*9000);
+      const today      = new Date().toLocaleDateString('en-GB');
+      document.getElementById('quote-output').innerHTML = `
+        <div style="border:2px solid var(--primary);padding:20px;border-radius:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <strong style="color:var(--primary);font-size:1.1rem">NAMPAK MALAWI LTD</strong>
+            <span style="color:var(--grey);font-size:.82rem">Ref: ${refNum}</span>
+          </div>
+          <table style="width:100%;font-size:.88rem;margin-bottom:10px">
+            <tr><td><b>Client:</b></td><td>${client}</td></tr>
+            <tr><td><b>Date:</b></td><td>${today}</td></tr>
+            <tr><td><b>Delivery:</b></td><td>${delivery||'TBD'}</td></tr>
+          </table>
+          <hr style="margin:10px 0">
+          <table style="width:100%;font-size:.88rem">
+            <tr><th style="background:var(--primary);color:white;padding:6px 10px">Product</th><th style="background:var(--primary);color:white;padding:6px 10px">Qty</th><th style="background:var(--primary);color:white;padding:6px 10px">Unit</th><th style="background:var(--primary);color:white;padding:6px 10px">Subtotal</th></tr>
+            <tr><td style="padding:8px 10px">${p.name}</td><td style="padding:8px 10px">${qty.toLocaleString()}</td><td style="padding:8px 10px">MK ${p.price.toLocaleString()}</td><td style="padding:8px 10px">MK ${subtotal.toLocaleString()}</td></tr>
+          </table>
+          <hr style="margin:10px 0">
+          <div style="text-align:right;font-size:.9rem">
+            VAT (16.5%): MK ${Math.round(vat).toLocaleString()}<br>
+            <strong style="font-size:1.05rem">GRAND TOTAL: MK ${Math.round(grandTotal).toLocaleString()}</strong>
+          </div>
+          <p style="margin-top:16px;font-size:.78rem;color:var(--grey)">Valid 30 days. Subject to stock availability. E&OE.</p>
+        </div>`;
+      document.getElementById('quote-preview').style.display='block';
+    }
+
+    // Stock doughnut chart
+    document.addEventListener('DOMContentLoaded',()=>{
+      renderAllProducts();
+      const sc = document.getElementById('stock-chart');
+      if(sc && typeof Chart!=='undefined'){
+        new Chart(sc.getContext('2d'),{
+          type:'doughnut',
+          data:{
+            labels:['Liquid Packaging','Corrugated','Agricultural','Specialty'],
+            datasets:[{data:[847000,87700,131000,56300],backgroundColor:['#0078D4','#10b981','#f59e0b','#8b5cf6']}]
+          },
+          options:{responsive:true,plugins:{legend:{position:'bottom'}}}
         });
-    </script>
+      }
+    });
+  </script>
 </body>
 </html>

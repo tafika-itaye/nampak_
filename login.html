@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Login | Nampak Malawi ERP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-box">
+      <h1>NAMPAK <span style="color:var(--accent)">MALAWI</span></h1>
+      <p>Client ERP Portal &mdash; Secure Access</p>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="e.g. chibuku.procurement" value="demo">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Password" value="demo1234">
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="doLogin()">Sign In</button>
+      <p style="margin-top:16px;font-size:.82rem;color:var(--grey);text-align:center">
+        Demo credentials: <strong>demo / demo1234</strong>
+      </p>
+      <a href="index.html" style="display:block;text-align:center;margin-top:14px;font-size:.85rem;color:var(--accent)">
+        &larr; Back to Main Site
+      </a>
+    </div>
+  </div>
+  <script>
+    function doLogin(){
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      if(u==='demo' && p==='demo1234'){
+        sessionStorage.setItem('nampak_user', u);
+        window.location.href='erp.html';
+      } else {
+        alert('Invalid credentials. Use demo / demo1234');
+      }
+    }
+    document.addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+  </script>
+</body>
+</html>

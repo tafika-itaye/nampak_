@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products | Nampak Malawi</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | Nampak Malawi</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">NAMPAK MALAWI</a>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="products.html" class="active">Products</a>
-            <a href="erp.html" class="btn" style="margin-left: 20px;">Client ERP Login</a>
-        </nav>
-    </header>
 
-    <div class="container">
-        <h1 style="color: var(--primary); margin-bottom: 10px;">Commercial Product Catalogue</h1>
-        <p style="margin-bottom: 30px; color: #666;">Browse our high-quality packaging solutions. Request a quote directly from the portal.</p>
-
-        <div class="grid-4" id="product-grid">
-            <!-- Products injected by app.js -->
-        </div>
+  <header>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">NAMPAK <span>MALAWI</span></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="login.html" class="btn btn-primary">Client Portal</a>
+      </div>
     </div>
+  </header>
 
-    <script src="js/app.js"></script>
+  <div style="background:var(--primary);padding:40px 0;color:white">
+    <div class="container">
+      <h1 style="font-size:2.2rem">Product Catalogue</h1>
+      <p style="opacity:.8;margin-top:6px">30 active product lines &bull; Prices in Malawian Kwacha (MK) &bull; Minimum orders apply</p>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top:36px;padding-bottom:60px">
+    <div class="filter-bar">
+      <input type="text" id="search-input" placeholder="Search products...">
+      <select id="cat-filter">
+        <option value="">All Categories</option>
+        <option value="Liquid Packaging">Liquid Packaging</option>
+        <option value="Corrugated">Corrugated</option>
+        <option value="Agricultural">Agricultural</option>
+        <option value="Specialty">Specialty</option>
+      </select>
+    </div>
+    <div class="grid-4" id="product-grid">
+      <!-- Injected by app.js -->
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>NAMPAK MALAWI</h3>
+          <p>Africa's leading diversified packaging manufacturer. Operating from Chichiri, Blantyre since 1974.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Products</h4>
+          <a href="products.html">Liquid Packaging</a>
+          <a href="products.html">Corrugated Cartons</a>
+          <a href="products.html">Agricultural Boxes</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">Our History</a>
+          <a href="about.html">Certifications</a>
+          <a href="login.html">Client Portal</a>
+        </div>
+      </div>
+      <div class="footer-bottom">&copy; 2026 Nampak Malawi Ltd. All rights reserved.</div>
+    </div>
+  </footer>
+  <script src="js/app.js"></script>
+  <script>
+    // Pre-filter from URL param (e.g. ?cat=Corrugated)
+    const urlCat = new URLSearchParams(window.location.search).get('cat')||'';
+    if(urlCat){
+      document.getElementById('cat-filter').value = urlCat;
+      document.addEventListener('DOMContentLoaded',()=>{renderProducts(urlCat,'');});
+    }
+  </script>
 </body>
 </html>
