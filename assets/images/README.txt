@@ -1,8 +1,13 @@
-PLACE YOUR DOWNLOADED IMAGES HERE
-Please rename your downloaded images to match the filenames used in the code:
+NAMPAK MALAWI — ASSETS/IMAGES DIRECTORY
 
-1. hero-modern-printing-press.jpg (Used in css/style.css for the hero background)
-2. sorghum-beer-conical-carton.jpg (Used in js/app.js for Product 1)
-3. tobacco-export-cases-stacked.jpg (Used in js/app.js for Product 2)
-4. industrial-corrugated-boxes.jpg (Used in js/app.js for Product 3)
-5. liquid-packaging-dairy.jpg (Used in js/app.js for Product 4)
+Place your downloaded images here and rename them EXACTLY as listed below.
+
+REQUIRED FILES:
+  hero-modern-printing-press.jpg   → used in css/style.css (.hero background)
+  sorghum-beer-conical-carton.jpg  → used in js/app.js (Product IDs 1,2,3,24)
+  tobacco-export-cases-stacked.jpg → used in js/app.js (Product IDs 10,11,12,21,30)
+  industrial-corrugated-boxes.jpg  → used in js/app.js (Product IDs 13-20,22,23,25-29)
+  liquid-packaging-dairy.jpg       → used in js/app.js (Product IDs 4,5,6,7,8,9)
+
+NOTE: If an image file is missing, the site will display a grey placeholder
+      showing the exact filename needed. No errors will break the layout.
